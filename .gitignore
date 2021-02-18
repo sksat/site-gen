@@ -1,3 +1,5 @@
+content/
+out/
 *.html
 
 /target
