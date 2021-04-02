@@ -4,8 +4,8 @@ use std::path::{Path, PathBuf};
 
 use clap::{App, Arg};
 use pulldown_cmark::{html, Options, Parser};
-use writedown::Render;
 use writedown_html;
+use writedown_html::writedown::Render;
 
 fn main() -> io::Result<()> {
     let matches = App::new(env!("CARGO_PKG_NAME"))
@@ -52,9 +52,9 @@ fn main() -> io::Result<()> {
             //    parent.to_str().unwrap()
             //);
         } else {
-            fs::create_dir(path.parent().unwrap()).unwrap();
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
         }
-        print!("{} ...", f.to_str().unwrap());
+        print!("{} ...\t", f.to_str().unwrap());
 
         let mut out = String::new();
 
@@ -63,6 +63,12 @@ fn main() -> io::Result<()> {
         }
         let ext = ext.unwrap().to_str().unwrap();
         let path = match ext {
+            "html" | "png" | "jpg" => {
+                //println!("{} -> {}", f.to_str().unwrap(), path.to_str().unwrap());
+                let _ = fs::copy(f, path).unwrap();
+                println!("[copy]");
+                continue;
+            }
             "md" => {
                 let mut options = Options::empty();
                 options.insert(Options::ENABLE_STRIKETHROUGH);

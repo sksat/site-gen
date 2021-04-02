@@ -91,7 +91,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "pulldown-cmark",
- "writedown",
+ "writedown 0.1.0",
  "writedown-html",
 ]
 
@@ -164,9 +164,14 @@ name = "writedown"
 version = "0.1.0"
 
 [[package]]
+name = "writedown"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f6c4877897b6c300f40ec5860cd1767589744c98d1e581b22d548455c262935f"
+
+[[package]]
 name = "writedown-html"
 version = "0.1.0"
 dependencies = [
- "clap",
- "writedown",
+ "writedown 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
