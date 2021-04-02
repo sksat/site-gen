@@ -10,5 +10,5 @@ edition = "2018"
 [dependencies]
 clap = "2.33.3"
 pulldown-cmark = "0.8.0"
-writedown = { path = "../writedown-rs" }
-writedown-html = { path = "../writedown-html" }
+writedown = "0.1.0"
+writedown-html = "0.1.0"

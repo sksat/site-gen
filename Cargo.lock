@@ -63,9 +63,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.86"
+version = "0.2.92"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b7282d924be3275cec7f6756ff4121987bc6481325397dde6ba3e7802b1a8b1c"
+checksum = "56d855069fafbb9b344c0f962150cd2c1187975cb1c22c1522c240d8c4986714"
 
 [[package]]
 name = "memchr"
@@ -91,7 +91,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "pulldown-cmark",
- "writedown 0.1.0",
+ "writedown",
  "writedown-html",
 ]
 
@@ -133,9 +133,9 @@ checksum = "f1bddf1187be692e79c5ffeab891132dfb0f236ed36a43c7ed39f1165ee20191"
 
 [[package]]
 name = "version_check"
-version = "0.9.2"
+version = "0.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b5a972e5669d67ba988ce3dc826706fb0a8b01471c088cb0b6110b805cc36aed"
+checksum = "5fecdca9a5291cc2b8dcf7dc02453fee791a280f3743cb0905f8822ae463b3fe"
 
 [[package]]
 name = "winapi"
@@ -162,16 +162,14 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 [[package]]
 name = "writedown"
 version = "0.1.0"
-
-[[package]]
-name = "writedown"
-version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f6c4877897b6c300f40ec5860cd1767589744c98d1e581b22d548455c262935f"
 
 [[package]]
 name = "writedown-html"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "639230021a931d70e4f5ca2b1fb82a832f14fc156c097aec18409cced44a6b42"
 dependencies = [
- "writedown 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "writedown",
 ]
