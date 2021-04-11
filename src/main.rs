@@ -1,11 +1,30 @@
+use std::error::Error;
 use std::fs;
 use std::io::{self, Read, Write};
 use std::path::{Path, PathBuf};
 
 use clap::{App, Arg};
+use lazy_static::lazy_static;
 use pulldown_cmark::{html, Options, Parser};
+use tera::Tera;
 use writedown_html;
 use writedown_html::writedown::Render;
+
+lazy_static! {
+    pub static ref TEMPLATES: Tera = {
+        let mut tera = match Tera::new("templates/*") {
+            Ok(t) => t,
+            Err(e) => {
+                println!("Parsing error(s): {}", e);
+                ::std::process::exit(1);
+            }
+        };
+        //tera.autoescape_on(vec!["html"]);
+        tera.autoescape_on(vec![]);
+
+        tera
+    };
+}
 
 fn main() -> io::Result<()> {
     let matches = App::new(env!("CARGO_PKG_NAME"))
@@ -101,24 +120,23 @@ fn main() -> io::Result<()> {
                 } else {
                     "default title"
                 };
-                let title = if title.len() == 0 {
-                    "".to_string()
-                } else {
-                    format!("  <title>{}</title>\n", title)
-                };
 
-                let head0 = concat!(
-                    "<!DOCTYPE html>\n",
-                    "<html>\n",
-                    "<head>\n",
-                    "  <meta charset=\"UTF-8\">\n",
-                    "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"
-                );
-                let head1 = concat!("</head>\n");
-                let header = format!("{}{}{}", head0, title, head1);
-                let footer = concat!("\n</html>");
-
-                format!("{}<body>\n{}\n</body>{}", header, out, footer)
+                let mut tera_ctx = tera::Context::new();
+                tera_ctx.insert("default_title", &"");
+                tera_ctx.insert("title", &title);
+                tera_ctx.insert("body", &out);
+                match TEMPLATES.render("base.html", &tera_ctx) {
+                    Ok(s) => s,
+                    Err(e) => {
+                        eprintln!("Error: {}", e);
+                        let mut cause = e.source();
+                        while let Some(e) = cause {
+                            eprintln!("Reason: {}", e);
+                            cause = e.source();
+                        }
+                        break;
+                    }
+                }
             };
         }
 
@@ -148,13 +166,4 @@ fn get_all_files(content: &Path) -> io::Result<Vec<PathBuf>> {
     }
 
     Ok(vec![content.into()])
-}
-
-fn is_extension(p: &PathBuf, ext: &str) -> bool {
-    let e = p.extension();
-    if e == None {
-        return false;
-    }
-    let e = e.unwrap();
-    e == ext
 }
